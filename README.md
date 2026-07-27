@@ -18,3 +18,6 @@ logistic/binomial model of contest outcomes.
 - `Plot_prob_against_m` — P(A wins) vs number of trials per contest, for a fixed ΔL
 - `Plot_prob_against_error` — P(A wins) vs noise level, for a fixed ΔL and m
 - `Binomial_curve` — exact theoretical prediction (binomial CDF), for comparison against simulation
+
+## Usage
+See `Experiments.ipynb` for example calls to each plotting function.
