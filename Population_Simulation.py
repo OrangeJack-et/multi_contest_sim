@@ -30,9 +30,21 @@ class Population:
     def Contest(self, req_deltaL, error):
         # fight function that returns 1 for A winning and -1 for B winning (commetns needs changing sicne not accuarate any more )
         # A whole contest with rep_contests number of fights
+        # two modes: deltaL = None | deltaL = value
+        # when deltaL = None: two random individuals selected from the population
+        # when deltaL = value: two random indivuals made (aka not from pop) with required deltaL
+        # then both converge. error is added in the range of -err to err (currenrly unifrom distribution)
+        # probabililty of A winning is then calcuated from the effective fitness
+        # winner is selected based on probA and added to the winnners 'bucket'
+        # this is then repeated 'rep_contests' times (with different error evey time)
+        # winner is then returned (based on which bucket is bigger)
         # Inputs:
         # req_deltaL = required difference in realised load
         # error = per-trial noise
+        # Outputs:
+        # winner = '1' if A won | '0' if B won
+        # wdiff_rat = ratio of fitnesses (to make it independant of magnitude of fitness and only on the ratio)
+        # Ldiff = difference in realised load of A and B
         if req_deltaL is None:
             A = B = rand.randint(0, self.pop_size - 1)
             while A == B:
@@ -82,6 +94,8 @@ class Population:
         # num_contests = number of separate contests
         # rep_contests = number of fights per contest
         # error = per-trial noise
+        # Outputs:
+        # list of tuples of winners, wdiff_rat, Ldiff for each different contest
         for i in range(num_contests):
             self.winners.append(self.Contest(req_deltaL, error))
         return self.winners
@@ -95,6 +109,7 @@ class Population:
         # num_contests = number of separate contests
         # rep_contests = number of fights per contest
         # error = per-trial noise
+        # Outputs: x: Ldiff | y: probA
         pop = Population(pop_size=pop_size, rep_contests=rep_contests)
         winners_wdiff_list =pop.Many_contests(num_contests, None, error)
         winnerAB_list = [i[0] for i in winners_wdiff_list]
@@ -171,6 +186,7 @@ class Population:
             probA_list.append(x)
         return probA_list, rep_contests
 
+
     @staticmethod
     def Plot_prob_against_error(pop_size, num_contests, rep_contests, req_deltaL):
         # plotting probability of A winning against the number of contests, m
@@ -190,6 +206,7 @@ class Population:
             x = np.mean(winnerAB_list)
             probA_list.append(x)
         return probA_list, error_list
+
 
     @staticmethod
     def Binomial_curve(deltaL):
