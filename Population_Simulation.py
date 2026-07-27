@@ -219,5 +219,3 @@ class Population:
         for i in odd_nums:
             y.append(1 - binom.cdf(i//2, i, p))      
         return odd_nums, y
-
-print('9')
