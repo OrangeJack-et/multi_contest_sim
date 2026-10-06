@@ -20,7 +20,7 @@ preparation.
 ## Analytic prediction
 With no error, the number of contests A wins is Binomial(m, P_A), so
 
-    P(A dominant) = 1 - F(floor(m/2); m, P_A)
+P(A dominant) = 1 - F(floor(m/2); m, P_A)
 
 where F is the binomial CDF. Nothing is fitted.
 
@@ -29,7 +29,6 @@ where F is the binomial CDF. Nothing is fitted.
 - At ΔL = 0.2: P = 0.55 for m = 1, rising to 0.841 for m = 99
 - Error flattens the curve but repetition still recovers the edge: at m = 99 with error = 1
 
-![Simulation against the analytic prediction](figures/fig2b.png)
 
 ## Code
 - `Population_Simulation.py`: the model and plotting functions
