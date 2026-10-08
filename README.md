@@ -27,11 +27,11 @@ where F is the binomial CDF. Nothing is fitted.
 ## Results
 - Simulation follows the analytic curve for every odd m from 1 to 99 (ΔL = 0.2, 10^4 dominance relations per point)
 - At ΔL = 0.2: P = 0.55 for m = 1, rising to 0.841 for m = 99
-- Error flattens the curve but repetition still recovers the edge: at m = 99 with error = 1
+- Error flattens the curve but repetition still recovers the edge: P = 0.77 at m = 99 with error = 1
 
 
 ## Code
-- `Population_Simulation.py`: the model and plotting functions
+- `Contest_sim.py`: the model and plotting functions
   - `Contest()` runs one dominance relation of m contests, for a random pair or a synthetic pair with a set ΔL
   - `Plot_prob_against_Ldiff` / `Plot_prob_against_wdiff`: P(A dominant) against load or fitness difference
   - `Plot_prob_against_m`: P(A dominant) against number of contests, at fixed ΔL
