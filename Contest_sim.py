@@ -31,22 +31,22 @@ class Population:
             L = rand.expovariate(1)
             self.birds.append(Bird(L))
 
-    def Resolve_dominace(self, req_deltaL, error):
+    def Resolve_dominance(self, req_deltaL, error):
         # Resolves the dominance relationship of a pair with num_contests contests 
         # two modes: deltaL = None | deltaL = value
         # when deltaL = None: two random individuals selected from the population
-        # when deltaL = value: two random indivuals made (aka not from pop) with required deltaL
+        # when deltaL = value: two random individuals made (not from pop) with required deltaL
         # Gaussian noise with standard deviation error is added to each load
-        # probabililty of A winning is then calcuated from the effective fitness
-        # winner is selected based on probA and added to the winnners 'bucket'
-        # this is then repeated 'num_contests' times (with different error evey time)
+        # probability of A winning is then calculated from the effective fitness
+        # winner is selected based on probA and added to the winners 'bucket'
+        # this is then repeated 'num_contests' times (with different error every time)
         # winner is then returned (based on which bucket is bigger)
         # Inputs:
         # req_deltaL = required difference in realised load
         # error = per-trial noise
         # Outputs:
         # winner = '1' if A won | '0' if B won
-        # wdiff_rat = ratio of fitnesses (to make it independant of magnitude of fitness and only on the ratio)
+        # wdiff_rat = ratio of fitnesses (to make it independent of magnitude of fitness and only on the ratio)
         # Ldiff = difference in realised load of A and B
         if req_deltaL is None:
             A = B = rand.randint(0, self.pop_size - 1)
@@ -96,16 +96,16 @@ class Population:
         # Outputs:
         # list of tuples of winners, wdiff_rat, Ldiff for each different contest
         for i in range(num_dominance_relationships):
-            self.winners.append(self.Resolve_dominace(req_deltaL, error))
+            self.winners.append(self.Resolve_dominance(req_deltaL, error))
         return self.winners
 
 
     @staticmethod
     def Plot_prob_against_Ldiff(pop_size, num_dominance_relationships, num_contests, error):
-        # plotting probability of A winning against the different in realsied load, L
+        # plotting probability of A winning against the difference in realised load, L
         # Inputs:
         # pop_size = population size
-        # num_dominance_relationships = number of separate dominant resolutions
+        # num_dominance_relationships = number of separate dominance relationships
         # num_contests = number of fights per contest
         # error = per-trial noise
         # Outputs: x: Ldiff | y: probA
@@ -119,7 +119,7 @@ class Population:
 
     @staticmethod
     def Plot_prob_against_wdiff(pop_size, num_dominance_relationships, num_contests, error):
-        # plottign probability of A winning against the difference in fitness, w
+        # plotting probability of A winning against the difference in fitness, w
         # Inputs:
         # pop_size = population size
         # num_dominance_relationships = number of separate contests
@@ -172,7 +172,7 @@ class Population:
         # Inputs:
         # pop_size = population size
         # num_dominance_relationships = number of separate contests
-        # req_deltaL = required difference in realisedl load
+        # req_deltaL = required difference in realised load
         # error = per-trial noise
         num_contests = list(range(1, 100, 2))  # 1,3,5,...,99
         probA_list = []
@@ -187,8 +187,8 @@ class Population:
 
     @staticmethod
     def Plot_prob_against_error(pop_size, num_dominance_relationships, num_contests, req_deltaL):
-        # plotting probability of A winning against the error, m
-        # new pop needs to be created each time so self.winners doesnt accumulate values 
+        # plotting probability of A winning against the error
+        # new pop needs to be created each time so self.winners doesn't accumulate values 
         # we are testing for different populations with different errors 
         # Inputs:
         # pop_size = population size
@@ -208,7 +208,7 @@ class Population:
 
     @staticmethod
     def Binomial_curve(deltaL, error=0):
-        # for plotting the theorietical binomial curve (ProbA against m) (uses the probit approximation)
+        # for plotting the theoretical binomial curve (ProbA against m) (uses the probit approximation)
         # Inputs:
         # deltaL = difference in realised load
         p = 1 / (1 + math.exp(-deltaL / math.sqrt(1 + math.pi * error**2 / 4)))
