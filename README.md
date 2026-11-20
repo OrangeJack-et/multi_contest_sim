@@ -15,7 +15,7 @@ preparation.
 - Each individual carries a realised load L ~ Exponential(1) and has fitness w = exp(-L)
 - **Contest:** a single Bernoulli trial. P(A wins) = w_A / (w_A + w_B) = 1 / (1 + exp(-ΔL)), with ΔL = L_B - L_A
 - **Dominance relation:** m contests between the same pair (m odd); the individual with the most wins is dominant
-- **Error:** per-contest noise added to each individual's load before every contest, representing conditions on the day.
+- **Error:** per-contest Gaussian noise, ε ~ N(0, σ_E²), added to each individual's load before every contest, representing conditions on the day
 
 ## Analytic prediction
 With no error, the number of contests A wins is Binomial(m, P_A), so
@@ -27,17 +27,17 @@ where F is the binomial CDF. Nothing is fitted.
 ## Results
 - Simulation follows the analytic curve for every odd m from 1 to 99 (ΔL = 0.2, 10^4 dominance relations per point)
 - At ΔL = 0.2: P = 0.55 for m = 1, rising to 0.841 for m = 99
-- Error flattens the curve but repetition still recovers the edge: P = 0.77 at m = 99 with error = 1
-
+- Error flattens the curve but repetition still recovers the edge: P = 0.77 at m = 99 with σ_E = 1
 
 ## Code
 - `Contest_sim.py`: the model and plotting functions
-  - `Contest()` runs one dominance relation of m contests, for a random pair or a synthetic pair with a set ΔL
+  - `Resolve_dominance()` runs one dominance relation of m contests, for a random pair or a synthetic pair with a set ΔL
   - `Plot_prob_against_Ldiff` / `Plot_prob_against_wdiff`: P(A dominant) against load or fitness difference
   - `Plot_prob_against_m`: P(A dominant) against number of contests, at fixed ΔL
   - `Plot_prob_against_error`: P(A dominant) against error level, at fixed ΔL and m
-  - `Binomial_curve`: the analytic prediction
+  - `Binomial_curve`: the analytic prediction (with error, uses the probit approximation)
 - `Experiments.ipynb`: reproduces every figure
+- `Multiple_Contest_Report.pdf`: write-up of the model and results
 
 ## Running it
     pip install -r requirements.txt
